@@ -20,9 +20,10 @@ security:
   - OAuth2:
       - read
       - write
+
 paths:
   /standing-orders:
-    post:
+    post: # note: additional endpoint
       tags:
         - Standing Orders
       summary: Create a new Standing Order. 
@@ -69,7 +70,7 @@ paths:
           $ref: '#/components/responses/standard503'
 
   /standing-orders/{submissionId}:
-    get:
+    get: # note: additional endpoint
       tags:
         - Standing Orders
       description: Retrieve a specific standing order submission.
@@ -113,7 +114,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'      
-    delete:
+    delete: # note: additional endpoint
       tags:
         - Standing Orders
       description: Delete a specific standing order submission.
@@ -162,8 +163,8 @@ paths:
           $ref: '#/components/responses/standard503'      
 
 
-  /standing-orders/{submissionId}/status:
-    get:
+  /standing-orders/{submissionId}/status: 
+    get: # note: additional endpoint
       tags:
         - Standing Orders
       description: Retrieve a specific standing order submission's status.
@@ -211,7 +212,7 @@ paths:
   /payments:
     post:
       tags:
-        - Payments
+        - Payments # otherName
       summary: Initiate new payments submission.
       description: Create new payments submission.
       operationId: submitPaymentsSubmissionUsingPOST
@@ -223,9 +224,15 @@ paths:
             schema:
               $ref: '#/components/schemas/paymentSubmissionRequest'
       parameters:
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '201':
           description: created
@@ -259,20 +266,26 @@ paths:
   /payments/{submissionId}:
     get:
       tags:
-        - Payments
+        - Payments # otherName
       description: Retrieve a specific payment submission.
       summary: Get a specific payment submission.
       parameters:
-        - name: submissionId
+        - name: submissionId # otherType: param is reference
           in: path
           description: ID of payment submission to be retrieved.
           required: true
           schema:
-            type: integer
+            type: integer # otherType string
             format: int64
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: The original payment submission.
@@ -301,18 +314,18 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-    delete:
+    delete: # note: additional endpoint
       tags:
         - Payments
       description: Delete a specific payment submission before executed.
       summary: Delete a specific payment submission before executed.
       parameters:
-        - name: submissionId
+        - name: submissionId # otherType param is reference
           in: path
           description: ID of payment submission to be deleted.
           required: true
           schema:
-            type: integer
+            type: integer # otherType string
             format: int64
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
@@ -357,16 +370,22 @@ paths:
       description: Retrieve a specific payment submission's status.
       summary: Get status information for the specific payment submission.
       parameters:
-        - name: submissionId
+        - name: submissionId # otherType param is reference
           in: path
           description: ID of chosen payment submission.
           required: true
           schema:
-            type: integer
+            type: integer # otherType string
             format: int64
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Status information for the specific payment submission.
@@ -397,7 +416,7 @@ paths:
           $ref: '#/components/responses/standard503'
 
   /single-payments:
-    post:
+    post: # note: additional endpoint
       tags:
         - Single Payments
       summary: Initiate new single payments submission.
@@ -444,7 +463,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-    get:
+    get: # note: additional endpoint
       tags: 
         - Single Payments
       description: Return the list of all initiated payments of all types for the authenticated context.
@@ -508,7 +527,7 @@ paths:
           $ref: '#/components/responses/standard503'
 
   /single-payments/{submissionId}:
-    get:
+    get: # note: additional endpoint
       tags:
         - Single Payments
       description: Receive payment with corresponding submissionId.
@@ -552,7 +571,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-    delete:
+    delete: # note: additional endpoint
       tags:
         - Single Payments
       description: Delete single payment with corresponding submissionId.
@@ -601,7 +620,7 @@ paths:
           $ref: '#/components/responses/standard503'
   
   /single-payments/{submissionId}/status:
-    get:
+    get: # note: additional endpoint
       tags:
         - Single Payments
       description: Retrieve a specific single payment submission's status.
@@ -661,9 +680,15 @@ paths:
             schema:
               type: string
       parameters:
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '201':
           description: created
@@ -706,9 +731,15 @@ paths:
             type: string
           required: true
           description: Unique ID of the ISO20022 payment instruction.
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML PAIN.001 message.
@@ -716,6 +747,7 @@ paths:
             application/xml:
               schema:
                 type: string
+                # other format: binary
           headers:
             X-Correlation-ID:
               schema:
@@ -737,7 +769,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-    delete:
+    delete: # note: additional endpoint
       tags:
         - iso20022
       summary: Delete a submitted ISO20022 XML PAIN.001 message before execution.
@@ -791,14 +823,20 @@ paths:
       description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
       parameters:
         - in: path
-          name: submissionId
+          name: submissionId # otherType: param is reference
           schema:
             type: string
           required: true
           description: Unique ID of the ISO20022 payment instruction.
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML PAIN.002 message.
@@ -828,12 +866,16 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
+  # missing  /consents get
+  # missing  /healthcheck get
+  # missing  /healthcheck post
+
           
 # -------------------------
 # -------- Models ---------
 # -------------------------
 components:
-  securitySchemes:
+  securitySchemes: # note additional
     OAuth2:
       type: oauth2
       flows:
@@ -843,8 +885,7 @@ components:
           scopes:
             read: Grants read access
             write: Grants write access
-  schemas:
-
+  schemas: # note: differences in schemas, naming of references, additonal/missing schemas,.. but this probably depends on how the endpoints are implemented
     # ---- From SIX ----
     paymentSubmissionRequest:
       title: Payment Submission Request

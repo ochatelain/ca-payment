@@ -1,0 +1,11 @@
+Tags to indicate a difference in multiple points compared to the API used developed by the SIX BBS AG group
+
+(schema: tag - meaning)
+
+# missing                  - an endpoint is completely missing
+# missingParameter         - the arguments of parameter 
+# otherName                - name differs
+# otherType                - parameter is different type, parameter is different type, parameter is used es reference (only syntax change)
+# note                     - any other comment on code
+
+TODO: delete file after fix
