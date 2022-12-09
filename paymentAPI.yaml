@@ -904,7 +904,7 @@ components:
           example: "eb6305c91f7f49deaed016487c27b42d"
         initiatingPartyId:
           type: string
-          maxLength: 32
+          maxLength: 32 # note 35
           example: "TPP01746"
         requestedExecutionDate:
           type: string
@@ -1031,7 +1031,7 @@ components:
           maxLength: 18
           example: "10.25"
 
-    paymentIBANDetail:
+    paymentIBANDetail: 
       title: Payment IBAN Detail
       type: object
       required:
@@ -1072,7 +1072,7 @@ components:
       type: object
       required:
         - creditorAccount
-        - creditorAgent
+        - creditorAgent # note additional
         - creditor
       properties:
         creditorAccount:
@@ -1085,6 +1085,7 @@ components:
           $ref: '#/components/schemas/paymentChargeBearerMethod'
         remittanceReference:
           $ref: '#/components/schemas/paymentOtherRemittanceReference'
+        # missing remittanceInformation
 
     paymentQRDetail:
       title: Payment QR Detail
@@ -1137,7 +1138,7 @@ components:
       type: object
       required:
         - name
-        - postalAddress
+        - postalAddress # note additional
       properties:
         name:
           type: string
@@ -1154,6 +1155,7 @@ components:
       properties:
         name:
           type: string
+          # missing maxLength, example ? 
         postalAddress:
           $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
 
@@ -1220,7 +1222,7 @@ components:
     paymentStructuredAddress:
       title: Structured Address for Payments
       type: object
-      required:
+      required: # note additional
         - streetName
         - postCode
         - townName
@@ -1250,7 +1252,7 @@ components:
     paymentUnstructuredAddress:
       title: Unstructured Address for Payments
       type: object
-      required:
+      required: # note additional
         - addressLines
         - country
       properties:
@@ -1326,7 +1328,7 @@ components:
     # --- End SIX -----
 
     # ---- Payment Data Model
-    singlepaymentsSubmissionRequest:
+    singlepaymentsSubmissionRequest: # note additional
       title: Single Payment Submission Request
       type: object
       required:
@@ -1372,7 +1374,7 @@ components:
         qrDetails:
           $ref: '#/components/schemas/paymentQRDetail'
 
-    standingorderSubmissionRequest:
+    standingorderSubmissionRequest: # note additional
       title: Standing Order Submission Request
       type: object
       required:
@@ -1454,20 +1456,20 @@ components:
                 example: "2021-02-01"
 
     # Schemas Information NextGenPSD2 for periodic orders
-    startDate:
+    startDate: # note additional
       description: |
         The first applicable day of execution starting from this date is the first payment.
       type: string
       format: date
 
-    endDate:
+    endDate: # note additional
       description: |
         The last applicable day of execution
         If not given, it is an infinite standing order.
       type: string
       format: date
 
-    executionRule:
+    executionRule: # note additional
       description: |
         "following" or "preceding" supported as values.
         This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday.
@@ -1479,7 +1481,7 @@ components:
         - "following"
         - "preceding"
 
-    frequencyCode:
+    frequencyCode: # note additional
       description: |
         The following codes from the "EventFrequency7Code" of ISO 20022 are supported.
         - "Daily"
@@ -1501,7 +1503,7 @@ components:
         - "SemiAnnual"
         - "Annual"
 
-    dayOfExecution:
+    dayOfExecution: # note additional
       description: |
         Day of execution as string.
 
@@ -1545,7 +1547,7 @@ components:
         - "31"
     # End Schemas Information NextGenPSD2 for periodic orders
 
-    standingorderSubmissionStatus:
+    standingorderSubmissionStatus: # note additional
       title: Standing Order Submission Status
       type: object
       required:
@@ -1571,12 +1573,12 @@ components:
 
     # ---- Common Data Model v1.2.0
     # ---- Date Formats
-    Date:
+    Date: # note additional
       type: string
       format: date
       example: 2018-04-13
       
-    DateTime:
+    DateTime: # note additional
       type: string
       format: date-time
       example: 2018-04-13T11:11:11Z
@@ -1598,7 +1600,7 @@ components:
           type: string 
     # ---------
     # ---- Currency ----
-    Currency:
+    Currency: # note duplicate ? or maybe use this pattern for all currencies
       description: ISO 4217 code
       type: string
       pattern: '[A-Z]{3}'
@@ -1847,3 +1849,7 @@ components:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
   # ---- End Responses - Standard Errors
+
+
+    # missing /consents consentAccountItem
+    # missing /healthcheck healthCheckResponse

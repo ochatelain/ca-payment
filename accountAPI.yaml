@@ -24,12 +24,18 @@ paths:
   /accounts:
     get:
       tags: 
-        - Account List 
+        - Account List # otherName different tag name
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: Paginated list of all accounts.
@@ -64,18 +70,24 @@ paths:
   /accounts/{accountId}:
     get:
       tags: 
-        - Account Details 
+        - Account Details # otherName
       description: Return the accounts details of the requested account.
       parameters:
         - in: path
           name: accountId
           required: true
           schema:
-            type: string
+            type: string # missing maxlength, pattern
           description: The account the details are requested.
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: Account details of the requested account.
@@ -108,7 +120,7 @@ paths:
   /accounts/{accountId}/balance:
     get:
       tags: 
-        - Account data of the specified account
+        - Account data of the specified account # otherName
       description: Account data of the specified account.
       parameters:
         - in: path
@@ -117,9 +129,16 @@ paths:
           required: true
           schema:
             type: string
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
+        #  - $ref: '#/components/parameters/query_date'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -149,16 +168,25 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
+  # missing /accounts/{accountId}/transactions
+
   /iso20022/statements:
     get:
       tags:
         - iso20022
       summary: Get list of resource links to account statements (CAMT.053).
       description: The resources links to available account statements (CAMT.053).
+      # note operationId
       parameters:
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
@@ -205,9 +233,15 @@ paths:
             type: string
           required: true
           description: Unique ID of the requested ISO20022 XML CAMT.053 document.
+        # missingParameter
+        #  - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        # missingParameter
+        #  - $ref: '#/components/parameters/optional_targetid_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        #  - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML CAMT.053 message.
@@ -237,7 +271,10 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /accounts/{accountId}/transactions:
+  # missing /consents get
+  # missing /healthcheck get & post
+
+  /accounts/{accountId}/transactions: # note additional
     get:
       tags: 
         - Transactions to and from the specified account
@@ -300,7 +337,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /accounts/{accountId}/transactions/{transactionId}:
+  /accounts/{accountId}/transactions/{transactionId}: # note additional
     get:
       tags: 
         - Details of the specified transaction.
@@ -348,6 +385,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
+
 # -------------------------
 # -------- Models ---------
 # -------------------------
@@ -434,7 +472,7 @@ components:
     # ---- End Common Data Model
 
     # ---- Links for Pagination----
-    linksPagination:
+    linksPagination: # note additional
       description: Links (or cursors) returned in the answer of an API call.
       type: object
       properties:
@@ -472,7 +510,7 @@ components:
           $ref: '#/components/schemas/commonAccountId'
         account:
           $ref: '#/components/schemas/paymentIbanAccount'
-        currency:
+        currency: # note use currency object and use ref
           type: string
           minLength: 3
           maxLength: 3
@@ -591,7 +629,7 @@ components:
           items:
             $ref: '#/components/schemas/accountTransactionEntry'
         linksPagination:
-          $ref: '#/components/schemas/linksPagination'
+          $ref: '#/components/schemas/linksPagination' # note additional
         _links:
           type: object
           properties:
@@ -950,7 +988,7 @@ components:
           maxLength: 35
           example: "00230"
 
-    PortfolioListLink:
+    PortfolioListLink: # note additional
       type: object
       title: Partner Link
       properties:
@@ -981,7 +1019,7 @@ components:
           example: "application/json"
           description: The supported http content-type when sending the request to the server. If no content is supported on an end-point (like on a typical GET) then the type will be null
 
-    HttpVerb:
+    HttpVerb: #  ote additional
       type: string
       example: GET
       enum:
@@ -1013,7 +1051,7 @@ components:
         type: string
       description: Name and version of the of the Client software.
       required: true
-    offset: 
+    offset: # note additional
       name: offset
       in: query
       description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
@@ -1023,7 +1061,7 @@ components:
         format: int32
         example: 25
         minimum: 0
-    limit: 
+    limit: # note additional
       name: limit
       in: query
       description: Optional parameter for pagination. Maximum number of entries to be returned.
@@ -1033,7 +1071,7 @@ components:
         format: int32
         example: 25
         minimum: 1
-    cursor:
+    cursor: # note additional
       name: cursor
       in: query
       description: Optional parameter for pagination. An opaque string value used for pagination.
@@ -1204,3 +1242,6 @@ components:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
   # ---- End Responses - Standard Errors
+
+    # note missing parameter consentAccountItem
+    # note missing parameter healthCheckResponse
