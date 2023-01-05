@@ -20,6 +20,7 @@ security:
   - OAuth2:
       - read
       - write
+# note order of endpoints is different to SIX bLink
 paths:
   /accounts:
     get:
@@ -70,7 +71,7 @@ paths:
   /accounts/{accountId}:
     get:
       tags: 
-        - Account Details # otherName
+        - Account Details # otherName different tag name
       description: Return the accounts details of the requested account.
       parameters:
         - in: path
@@ -120,7 +121,7 @@ paths:
   /accounts/{accountId}/balance:
     get:
       tags: 
-        - Account data of the specified account # otherName
+        - Account data of the specified account # otherName different tag name
       description: Account data of the specified account.
       parameters:
         - in: path
@@ -167,8 +168,6 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-
-  # missing /accounts/{accountId}/transactions
 
   /iso20022/statements:
     get:
@@ -271,13 +270,10 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  # missing /consents get
-  # missing /healthcheck get & post
-
-  /accounts/{accountId}/transactions: # note additional
+  /accounts/{accountId}/transactions:
     get:
       tags: 
-        - Transactions to and from the specified account
+        - Transactions to and from the specified account # otherName different tag name
       description: Transactions to and from the specified account.
       parameters:
         - in: path
@@ -340,7 +336,7 @@ paths:
   /accounts/{accountId}/transactions/{transactionId}: # note additional
     get:
       tags: 
-        - Details of the specified transaction.
+        - Details of the specified transaction # otherName different tag name
       description: details of the specified transaction
       parameters:
         - in: path
@@ -385,6 +381,10 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
+
+  # missing  /consents get
+  # missing  /healthcheck get
+  # missing  /healthcheck post
 
 # -------------------------
 # -------- Models ---------
