@@ -1,3 +1,4 @@
+name: verify-swagger-syntax
 on:
   push:
     branches: [ main ]
